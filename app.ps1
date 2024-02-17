@@ -54,5 +54,18 @@ $downloadUrl = "https://github.com/chezzakowo/furinawallpaperachive/releases/dow
 $destination = Join-Path -Path $saveLocation -ChildPath "downloaded_file.ext"
 Invoke-WebRequest -Uri $downloadUrl -OutFile $destination
 
+# Display download progress bar with cyan color
+$progressWidth = 50
+for ($i = 1; $i -le 100; $i++) {
+    $completed = [math]::Floor($i * $progressWidth / 100)
+    $remaining = $progressWidth - $completed
+    $progressBar = "[" + "-" * $completed + " " * $remaining + "]"
+    Write-Host -NoNewline -ForegroundColor Cyan "`rProgress: $($progressBar) $i%"
+    Start-Sleep -Milliseconds 50
+}
+
+# Clear the progress bar
+Write-Host "`n"
+
 # Display completion message
 Write-Host "Da tai xong, ban co the mo file roi do"
