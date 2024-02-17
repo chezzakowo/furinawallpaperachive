@@ -46,34 +46,13 @@ Write-Host "Tutu, doi t load file"
 Write-Host -ForegroundColor Blue $FurinaAsciiArt
 Write-Host -ForegroundColor Blue "Furina Wallpaper Archive"
 
-# Create a Folder Browser dialog using .NET Framework
-Add-Type -AssemblyName System.Windows.Forms
-$folderBrowser = New-Object System.Windows.Forms.FolderBrowserDialog
-$folderBrowser.Description = "Select a folder to save the file"
-
-# Show the dialog and get the selected folder
-$dialogResult = $folderBrowser.ShowDialog()
-if ($dialogResult -eq "OK") {
-    $saveLocation = $folderBrowser.SelectedPath
-}
-else {
-    Write-Host "No folder selected. Exiting script."
-    exit
-}
+# Set the save location to the desktop
+$saveLocation = [Environment]::GetFolderPath("Desktop")
 
 # Download the file
-$downloadUrl = "URL_TO_DOWNLOAD_FILE"
+$downloadUrl = "https://github.com/chezzakowo/furinawallpaperachive/releases/download/%231/Furina.zip"
 $destination = Join-Path -Path $saveLocation -ChildPath "downloaded_file.ext"
 Invoke-WebRequest -Uri $downloadUrl -OutFile $destination
-
-# Display download progress bar with RGB color
-$percentComplete = 0
-while ($percentComplete -lt 100) {
-    $percentComplete++
-    $progressColor = "{0:X2}{1:X2}{2:X2}" -f ($percentComplete * 255 / 100), (255 - $percentComplete * 255 / 100), 0
-    Write-Progress -Activity "Downloading file" -Status "Progress: $percentComplete%" -PercentComplete $percentComplete -ForegroundColor ([System.Drawing.ColorTranslator]::FromHtml("#$progressColor"))
-    Start-Sleep -Milliseconds 50
-}
 
 # Display completion message
 Write-Host "Da tai xong, ban co the mo file roi do"
